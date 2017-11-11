@@ -1,13 +1,16 @@
 module Mu
-  alias Primitive = (Nil | Bool | Float64 | String)
-  alias Value = (Proc(Nil) | Mu::Object | Mu::Primitive | Array(Mu::Value) | Hash(String, Mu::Value) | Proc(Mu::Value, Mu::Value) | Proc(Mu::Value))
+  # values that can be cached by an object
+  alias Val = (Nil | Bool | Float64 | String)
+
+  # values that can be passed around the VM
+  alias Type = (Mu::Val | Proc(Message, Method) | Proc(Nil) | Mu::Object | Array(Mu::Object) | Hash(String, Mu::Object))
 
   class Object
     @protos : Array(Mu::Object)
 
     getter type, value
 
-    def initialize(proto : (Mu::Object | Nil) = nil, value : Mu::Value = nil, type : String = "Object")
+    def initialize(proto : (Mu::Object | Nil) = nil, value : Mu::Type = nil, type : String = "Object")
       if proto.nil?
         @protos = [] of Mu::Object
       else
@@ -36,7 +39,7 @@ module Mu
       end
     end
 
-    def clone(val : Mu::Value = nil)
+    def clone(val : Mu::Type = nil)
       val ||= @value && @value.dup
       Object.new(self, val)
     end

@@ -3,6 +3,7 @@ module Mu
     Identifier
     ParenLeft
     ParenRight
+    Comma
     NumberLiteral
     StringLiteral
     HashComment
@@ -35,13 +36,6 @@ module Mu
             @cursor += 1
           end
           @tokens << Token.new(kind: TokenType::NumberLiteral, value: number)
-        elsif isIdentifier
-          identifier = ""
-          while isIdentifier
-            identifier += peek
-            @cursor += 1
-          end
-          @tokens << Token.new(kind: TokenType::Identifier, value: identifier)
         elsif (char == '/' && peek == '/')
           while (peek != '\n' && peek != '\0')
             @cursor += 1
@@ -58,6 +52,16 @@ module Mu
         elsif char == ')'
           @cursor += 1
           @tokens << Token.new(kind: TokenType::ParenRight, value: ")")
+        elsif char == ','
+          @cursor += 1
+          @tokens << Token.new(kind: TokenType::Comma, value: ",")
+        elsif isIdentifier
+          identifier = ""
+          while isIdentifier
+            identifier += peek
+            @cursor += 1
+          end
+          @tokens << Token.new(kind: TokenType::Identifier, value: identifier)
         elsif char == '\0'
           break
         else

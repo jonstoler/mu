@@ -3,4 +3,8 @@
 // the simplest example
 Object sayHello
 
+method(
+	Object sayHello
+)
+
 // 3 plus(3) // oops numbers (and arguments) don't work yet

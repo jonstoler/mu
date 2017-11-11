@@ -9,6 +9,7 @@ if File.exists?(ARGV[0])
   if File.readable?(ARGV[0])
     code = File.read(ARGV[0])
     vm = Mu::VM.new
+    vm.bootstrap
     vm.exec(code)
   else
     puts "Could not read #{ARGV[0]}."

@@ -4,7 +4,7 @@ module Mu
 
     def initialize(name : String)
       @name = name
-      @args = [] of Mu::Value
+      @args = [] of Mu::Val
 
       @cached_value = false
 
